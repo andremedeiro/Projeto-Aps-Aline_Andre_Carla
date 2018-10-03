@@ -1,0 +1,86 @@
+@startuml
+
+class Atividade{
+    string nome
+    string data_final
+    string situacao
+    string disciplina
+    list tags
+    
+    get_nome()
+    get_data_final()
+    get_tags()
+    get_situacao()
+    get_disciplina()
+    
+    set_nome()
+    set_data_final()
+    set_tags()
+    set_situacao()
+    set_disciplina()
+}
+
+class Sistema{
+    list usuario
+    
+    cadastrar_usuario()
+    logar()
+    excluir_usuario()
+    
+    criar_atividade()
+    excluir_atividade()
+    arquivar_atividade()
+    listar_atividades()
+    
+    criar_disciplina()
+    excluir_disciplina()
+    
+    buscar_atividade()
+    buscar_usuario()
+    buscar_disciplina()
+    
+    menu()
+    
+
+    
+}
+
+class Disciplina{
+    string nome
+    string professor
+    list atividades
+    
+    
+    get_nome()
+    get_atividades()
+    get_professor()
+    
+    set_nome()
+    set_atividades()
+    set_professor()
+    
+}
+
+class Usuario{
+    string nome
+    string email
+    string senha
+    list disciplinas
+    
+    get_nome()
+    get_email()
+    get_senha()
+    get_disciplinas()
+    
+    set_nome()
+    set_email()
+    set_senha()
+    set_disciplinas()
+}
+
+
+Sistema -- Usuario
+Sistema - Disciplina
+Disciplina *- Atividade
+
+@enduml
