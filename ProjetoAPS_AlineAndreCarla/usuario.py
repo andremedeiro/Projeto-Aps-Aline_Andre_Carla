@@ -1,5 +1,5 @@
 class Usuario:
-    def __init__(self,email, senha, nome):
+    def __init__(self, email, senha, nome):
         self.senha = senha
         self.nome = nome
         self.email = email
@@ -31,9 +31,13 @@ class Usuario:
 
     def listar_disciplinas(self):
         for disciplina in self.disciplinas:
+            print(" ")
             print(disciplina)
 
     def listar_atividades(self):
         for disciplina in self.disciplinas:
-            print(disciplina)
             disciplina.listar_atividades()
+
+    def listar_atividades_arquivadas(self):
+        for disciplina in self.disciplinas:
+            disciplina.listar_atividades_arquivadas()
