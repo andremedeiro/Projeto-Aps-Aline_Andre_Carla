@@ -1,17 +1,11 @@
 from atividade import Atividade
 from usuario import Usuario
 from disciplina import Disciplina
-'''
-Sempre que não existir ou ja exisitr uma disciplina, atividade, ou usuario com o nome informado, pergute se deseja fazer outro
 
-Falta ordenar a listagem de de atividades por data
-
-
-'''
 class Sistema:
     def __init__(self):
-        self.usuarios = [adm]
-        self.tags_programadas = ["Projeto","Prova", "Mini-teste", "Monitoria", "Seminário"]
+        self.usuarios = [andre]
+        self.tags_programadas = ["projeto","prova", "mini-teste", "monitoria", "seminário"]
 
 
     # ______________________________________________________________________
@@ -25,11 +19,12 @@ class Sistema:
 
     def listar_usuarios(self):
         if len(self.usuarios) == 0:
-            print("Nenhum Usuario Cadastrado")
+            print(self.mudar_cor("Nenhum Usuario Cadastrado", 31))
         else:
+            print(self.mudar_cor("\nUsuarios:", 34))
             for usuario in self.usuarios:
                 print(" ")
-                print(usuario)
+                print(self.mudar_cor(usuario, 34))
 
     def buscar_usuario(self, email):
         for usuario in self.usuarios:
@@ -38,7 +33,7 @@ class Sistema:
 
     def logar(self, email, senha):
         if len(self.usuarios) == 0:
-            print("Nenhum Usuario Cadastrado")
+            print(self.mudar_cor("Nenhum Usuario Cadastrado", 31))
         else:
             usuario = self.buscar_usuario(email)
             if usuario != None:
@@ -114,6 +109,7 @@ class Sistema:
     # ___________________________________________________________________________________
     #                        MENUS
     def menu(self):
+        print("")
         print("1 - Cadastrar Usuario")
         print("2 - Listar Usuarios")
         print("3 - Logar")
@@ -130,7 +126,6 @@ class Sistema:
                 print(self.mudar_cor("Úsuario Já Existe", 31))
 
         elif opcao == '2':
-            print("\nUsuarios: ")
             self.listar_usuarios()
 
         elif opcao == '3':
@@ -138,6 +133,8 @@ class Sistema:
             email = str(input("Email: "))
             senha = str(input("Senha: "))
             self.logar(email, senha)
+        else:
+            print(self.mudar_cor("\nOpção Não Valida", 31))
         return opcao
 
     def menu_logado(self, usuario):
@@ -181,12 +178,12 @@ class Sistema:
                     conteudo = input('Conteudo: ')
                     self.criar_atividade(nome, data_final, conteudo, disciplina, id, usuario)
                     atividade = self.buscar_atividade(id, usuario)
-                    adicionar = input("Deseja adicionar alguma Tag? ")
-                    while adicionar != 'nao':
+                    adicionar = input("Deseja adicionar alguma Tag? [sim/nao] ")
+                    while(adicionar != 'nao'):
                         if len(usuario.get_tags_personalizdas()) < 50:
                             tag = input("Tag: ")
                             self.adicionar_tag(tag, atividade, usuario)
-                            adicionar = input("Adicionar mais uma? ")
+                            adicionar = input("Adicionar mais uma? [sim/nao] ")
                         else:
                             print(self.mudar_cor("Não foi possivel adicionar mais tags,\nHá 50 tags personalizadas criadas em seu Usuario", 31))
                             break
@@ -203,21 +200,17 @@ class Sistema:
             id = input("Informe o ID da Atividade: ")
             atividade = self.buscar_atividade(id, usuario)
             if atividade != None:
-                atitude = input(
-                    "Deseja excluir a atividade " + atividade.get_nome() + "? (Digite " + "sim" + " para exluir) ")
+                atitude = input('Atividade foi concluida, deseja exclui-la? [sim/nao] ')
 
                 if atitude == "sim":
                     print(self.mudar_cor("A Atividade " + str(atividade.get_nome()) + " Foi Excluida com Sucesso", 32))
                     self.remover_atividade(atividade, usuario)
 
                 else:
-                    print(self.mudar_cor(
-                        "A Atividade " + str(atividade.get_nome()) + " Foi Arquivada e Concluida com Sucesso", 32))
+                    print(self.mudar_cor("A Atividade " + str(atividade.get_nome()) + " Foi Arquivada e Concluida com Sucesso", 32))
                     self.concluir_atividade(atividade, usuario)
                     self.arquivar_atividade(atividade, usuario)
-
-
-            else:
+            elif atividade == None:
                 print(self.mudar_cor("Atividade Não Existe", 31))
 
         elif opcao2 == '7':
@@ -268,7 +261,8 @@ class Sistema:
                     else:
                         print(self.mudar_cor("Não Existem Tags Personalizadas", 31))
 
-
+                else:
+                    print(self.mudar_cor("\nOpção Não Valida", 31))
 
             elif opcao4 == '2':
                 Nome = input("Nome da Disciplina que Deseja Editar: ")
@@ -289,6 +283,7 @@ class Sistema:
                         disciplina.set_professor(novo)
                 else:
                     print(self.mudar_cor("Disciplina Não Existe", 31))
+
 
             elif opcao4 == '3':
                 ID = input("ID da Atividade que Deseja Editar: ")
@@ -333,11 +328,11 @@ class Sistema:
 
                     if opcao3 == '5':
                         adicionar = ''
-                        while adicionar != 'nao':
+                        while (adicionar != 'nao'):
                             if len(usuario.tags_personalizadas) < 50:
                                 tag = input("Tag: ")
                                 self.adicionar_tag(tag, atividade, usuario)
-                                adicionar = input("Mais Alguma? ")
+                                adicionar = input("Mais Alguma? [sim/nao] ")
                             else:
                                 print(self.mudar_cor(
                                     "Não foi possivel adicionar mais tags,\nHá 50 tags personalizadas criadas em seu Usuario",
@@ -350,10 +345,18 @@ class Sistema:
 
                 else:
                     print(self.mudar_cor("Atividade Não Existe", 31))
+
+        else:
+            print(self.mudar_cor("\nOpção Não Valida", 31))
         return opcao2
 
-adm = Usuario("andre", "123", "André")
-disciplina = Disciplina("portugues", "Tássia Regis")
-adm.adicionar_disciplina(disciplina)
-atividade = Atividade("Redação", "04/10/2018", "Fazer um Redação do ENEM", disciplina, "15")
-disciplina.adicionar_atividade(atividade)
+andre = Usuario("andre","123","andre")
+matematica = Disciplina("matematica", 'lobão')
+matematica.adicionar_atividade(Atividade("Prova","18/04/2019","prova de matematica", matematica, "15"))
+matematica.adicionar_atividade(Atividade("Avaliação","17/04/2019","Avaliação de matematica", matematica, "16"))
+matematica.adicionar_atividade(Atividade("Trabalho","20/04/2019","Trabalho de matematica", matematica, "17"))
+matematica.adicionar_atividade(Atividade("Prova","18/04/2018","prova de matematica", matematica, "1"))
+matematica.adicionar_atividade(Atividade("Avaliação","16/04/2019","Avaliação de matematica", matematica, "20"))
+matematica.adicionar_atividade(Atividade("Trabalho","5/04/2019","Trabalho de matematica", matematica, "3"))
+andre.adicionar_disciplina(matematica)
+

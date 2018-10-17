@@ -7,6 +7,7 @@ class Atividade:
         self.nome = nome
         self.id = id
         self.data_final = data_final
+        self.data_final_int = time.strptime(self.data_final, "%d/%m/%Y")
         self.conteudo = conteudo
         self.disciplina = disciplina
         self.tags = []
@@ -15,14 +16,14 @@ class Atividade:
     def __str__(self):
         if self.situacao == 'Atividade Atrasada':
             return ('\033[31m' + "Nome: " + self.nome + " | ID: " + self.id + " | Disciplina: " + str(
-                self.disciplina.nome) + "\nPrazo: " + self.data_final + " | " + str(self.situacao) + "\nTags: " + str(self.get_tags()) + "\n" + self.conteudo + '\033[0;0m')
+                self.disciplina.nome) + "\nPrazo: " + str(self.data_final) + " | " + str(self.situacao) + "\nTags: " + str(self.get_tags()) + "\n" + self.conteudo + '\033[0;0m')
 
         elif self.situacao == 'Atividade Concluida':
             return ('\033[32m' + "Nome: " + self.nome + " | ID: " + self.id + " | Disciplina: " + str(
-                self.disciplina.nome) + "\nPrazo: " + self.data_final + " | " + str(self.situacao) + "\nTags: " + str(self.get_tags()) + "\n" + self.conteudo + '\033[0;0m')
+                self.disciplina.nome) + "\nPrazo: " + str(self.data_final) + " | " + str(self.situacao) + "\nTags: " + str(self.get_tags()) + "\n" + self.conteudo + '\033[0;0m')
         else:
             return ("Nome: " + self.nome + " | ID: " + self.id + " | Disciplina: " + str(
-                self.disciplina.nome) + "\nPrazo: " + self.data_final + " | " + str(self.situacao) + "\nTags: " + str(self.get_tags()) + "\n" + self.conteudo)
+                self.disciplina.nome) + "\nPrazo: " + str(self.data_final) + " | " + str(self.situacao) + "\nTags: " + str(self.get_tags()) + "\n" + self.conteudo)
 
     def get_datafinal(self):
         return self.data_final
@@ -68,8 +69,7 @@ class Atividade:
 
     def analisa_situacao(self):
         data_de_hoje = time.strptime(self.data(), "%d/%m/%Y")
-        data_final = time.strptime(self.data_final, "%d/%m/%Y")
-        if data_final < data_de_hoje:
+        if self.data_final_int < data_de_hoje:
             return ("Atividade Atrasada")
 
         else:

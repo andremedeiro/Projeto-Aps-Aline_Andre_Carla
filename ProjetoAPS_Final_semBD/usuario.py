@@ -22,6 +22,9 @@ class Usuario:
     def get_tags_personalizdas(self):
         return self.tags_personalizadas
 
+    def get_disciplina(self):
+        return len(self.disciplinas)
+
     def set_senha(self, novo_senha):
         self.senha = novo_senha
 
@@ -35,20 +38,45 @@ class Usuario:
         self.disciplinas.append(disciplina)
 
     def listar_disciplinas(self):
-        if len(self.disciplinas) == 0:
-            return None
-        else:
-            for disciplina in self.disciplinas:
-                print(" ")
-                print(disciplina)
+        from sistema import Sistema
+        sistema=Sistema()
+        print(sistema.mudar_cor("Disciplinas:", 34))
+        for disciplina in self.disciplinas:
+            print(" ")
+            print(sistema.mudar_cor(disciplina,34))
 
     def listar_atividades(self):
+        from sistema import Sistema
+        sistema = Sistema()
+        atividades = []
         for disciplina in self.disciplinas:
-            disciplina.listar_atividades()
+            atividades.append(disciplina.listar_atividades())
+        if len(atividades) == 0:
+            print(sistema.mudar_cor("Nenhuma Atividade Cadastrada", 31))
+        else:
+            for lista in atividades:
+                if isinstance(lista, str) == False:
+                    for atividade in lista:
+                        print("\n"+str(atividade))
+                else:
+                    print(sistema.mudar_cor(lista, 34))
+
 
     def listar_atividades_arquivadas(self):
+        from sistema import Sistema
+        sistema = Sistema()
+        atividades = []
         for disciplina in self.disciplinas:
-            disciplina.listar_atividades_arquivadas()
+            atividades.append(disciplina.listar_atividades_arquivadas())
+        if len(atividades) == 0:
+            print(sistema.mudar_cor("Nenhuma Atividade Arquivada", 31))
+        else:
+            for lista in atividades:
+                if isinstance(lista, str) == False:
+                    for atividade in lista:
+                        print("\n" + str(atividade))
+                else:
+                    print(sistema.mudar_cor(lista, 34))
 
     def adicionar_tag(self, tag):
         self.tags_personalizadas.append(tag)
@@ -60,4 +88,4 @@ class Usuario:
                 for atividade in disciplina.atividades:
                     atividade.tags.remove(tag)
         else:
-            print("Esta Tag Não foi Criada")
+            print("A Tag "+tag+ " Não foi Criada")
